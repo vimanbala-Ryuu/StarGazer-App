@@ -137,26 +137,6 @@ An internet connection is required for both. If `ASTRO_API_KEY` is unset, plate 
 
 ---
 
-## 🚀 Deployment (Render)
-
-**Build command:**
-```bash
-pip install -r requirements.txt
-```
-
-**Start command:**
-```bash
-gunicorn app:app
-```
-
-**Environment variables** (set in the Render dashboard, not in code):
-- `ASTRO_API_KEY`
-- `FLASK_DEBUG=False`
-
-Render sets `PORT` automatically; `app.py` reads it via `os.getenv('PORT', 5000)`.
-
----
-
 ## 🔮 Future improvements
 
 - Offline constellation recognition / local star catalog
