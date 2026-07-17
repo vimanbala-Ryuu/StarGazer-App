@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarGazer — Explore the Night Sky</title>
+<meta name="description" content="Upload a night sky image to identify constellations using computer vision and astronomical plate solving.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+        <a href="#top" class="logo" aria-label="StarGazer home">
+            <i class="icon-star" aria-hidden="true"></i>
+            <span>StarGazer</span>
+        </a>
+
+        <nav class="main-nav" id="mainNav" aria-label="Primary">
+            <a href="#top" class="nav-link">Home</a>
+            <a href="#history" class="nav-link">History</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="https://github.com/vimanbala-Ryuu/StarGazer-App.git" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="btn btn-primary btn-sm" id="headerUploadBtn">
+                <i class="icon-upload" aria-hidden="true"></i>
+                <span>Upload</span>
+            </button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+        <a href="#top" class="nav-link">Home</a>
+        <a href="#history" class="nav-link">History</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+    </nav>
+</header>
+
+<main id="main-content">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+    <div class="hero-stars" aria-hidden="true">
+        <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+        <span class="dot d4"></span><span class="dot d5"></span><span class="dot d6"></span>
+        <span class="dot d7"></span><span class="dot d8"></span><span class="dot d9"></span>
+    </div>
+
+    <div class="container hero-inner">
+        <div class="hero-copy">
+            <span class="eyebrow">Computer vision · Plate solving</span>
+            <h1>Explore the Night Sky</h1>
+            <p class="hero-subhead">Upload a night sky image to identify constellations using computer vision and astronomical plate solving.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg" id="heroUploadBtn">
+                    <i class="icon-upload" aria-hidden="true"></i>
+                    <span>Upload Image</span>
+                </button>
+                <a href="#about" class="btn btn-secondary btn-lg">
+                    <span>Learn More</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-illustration">
+                <circle cx="240" cy="210" r="150" fill="url(#skyGrad)"/>
+                <g class="floating-stars">
+                    <circle cx="120" cy="90" r="3" fill="#4F7CFF"/>
+                    <circle cx="330" cy="70" r="2.5" fill="#4F7CFF"/>
+                    <circle cx="380" cy="180" r="2" fill="#6B7280"/>
+                    <circle cx="90" cy="230" r="2.5" fill="#6B7280"/>
+                    <circle cx="200" cy="60" r="2" fill="#4F7CFF"/>
+                    <circle cx="150" cy="320" r="2.5" fill="#6B7280"/>
+                    <circle cx="360" cy="300" r="2" fill="#4F7CFF"/>
+                </g>
+                <path d="M120 90 L200 60 L330 70" stroke="#4F7CFF" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+                <path d="M90 230 L150 320 L360 300 L380 180" stroke="#4F7CFF" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+                <circle cx="240" cy="210" r="60" fill="#FFFFFF" opacity="0.9"/>
+                <path d="M210 180 l14 22 -14 22 26 -12 26 12 -14 -22 14 -22 -26 12z" fill="#4F7CFF" opacity="0.85" transform="translate(4 0)"/>
+                <defs>
+                    <radialGradient id="skyGrad" cx="0.5" cy="0.5" r="0.5">
+                        <stop offset="0%" stop-color="#EEF2FF"/>
+                        <stop offset="100%" stop-color="#FAFBFC"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- ============ UPLOAD ============ -->
+<section class="upload-section container" id="upload">
+    <div class="section-heading">
+        <h2>Scan a sky image</h2>
+        <p>Drop a photo of the night sky and StarGazer will detect stars and match the constellation.</p>
+    </div>
+
+    <div class="upload-card" id="dropZone" tabindex="0" role="button" aria-label="Upload a night sky image">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+
+        <div class="upload-empty" id="uploadEmpty">
+            <div class="upload-icon"><i class="icon-image-plus" aria-hidden="true"></i></div>
+            <p class="upload-title">Drag &amp; drop an image, or click to browse</p>
+            <p class="upload-hint">PNG, JPG up to 15MB</p>
+        </div>
+
+        <div class="upload-filled" id="uploadFilled" hidden>
+            <div class="preview-wrap">
+                <img id="preview" alt="Selected sky image preview">
+                <canvas id="previewOverlay"></canvas>
+                <button class="zoom-btn" id="zoomBtn" type="button" aria-label="Zoom image">
+                    <i class="icon-expand" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="file-meta">
+                <div class="file-meta-text">
+                    <span class="file-name" id="fileName"></span>
+                    <span class="file-size" id="fileSize"></span>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="changeImageBtn" type="button">Change image</button>
+            </div>
+            <div class="progress-track" id="uploadProgress" hidden>
+                <div class="progress-fill" id="uploadProgressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="upload-actions">
+        <button class="btn btn-primary btn-lg" id="scanBtn" disabled>
+            <i class="icon-sparkles" aria-hidden="true"></i>
+            <span>Identify Constellation</span>
+        </button>
+    </div>
+</section>
+
+<!-- ============ LOADING ============ -->
+<section class="loading-section container" id="loadingSection" hidden aria-live="polite">
+    <div class="loading-card">
+        <div class="loading-sky" aria-hidden="true">
+            <span class="ls-star" style="--x:10%;--y:20%;--d:0s"></span>
+            <span class="ls-star" style="--x:80%;--y:15%;--d:0.4s"></span>
+            <span class="ls-star" style="--x:30%;--y:70%;--d:0.8s"></span>
+            <span class="ls-star" style="--x:60%;--y:50%;--d:1.2s"></span>
+            <span class="ls-star" style="--x:90%;--y:65%;--d:0.6s"></span>
+            <span class="ls-star" style="--x:45%;--y:25%;--d:1s"></span>
+            <span class="ls-star" style="--x:15%;--y:60%;--d:1.4s"></span>
+        </div>
+        <p class="loading-step" id="loadingStep">Uploading...</p>
+        <div class="progress-track">
+            <div class="progress-fill" id="loadingProgressFill"></div>
+        </div>
+        <ul class="loading-steps" id="loadingStepsList">
+            <li data-step="0">Uploading</li>
+            <li data-step="1">Detecting stars</li>
+            <li data-step="2">Matching constellation</li>
+            <li data-step="3">Retrieving astronomical data</li>
+            <li data-step="4">Complete</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section class="results-section container" id="resultsSection" hidden>
+    <div class="section-heading">
+        <h2>Scan results</h2>
+        <p>Here's what StarGazer found in your image.</p>
+        <div class="result-toolbar">
+            <button class="btn btn-secondary btn-sm" id="copyResultBtn">
+                <i class="icon-copy" aria-hidden="true"></i><span>Copy result</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" id="downloadResultBtn">
+                <i class="icon-download" aria-hidden="true"></i><span>Download result</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="anomalyBanner" class="anomaly-banner" hidden>
+        <i class="icon-alert-triangle" aria-hidden="true"></i>
+        <span id="anomalyText"></span>
+    </div>
+
+    <div class="results-grid">
+        <article class="card card-image">
+            <h3 class="card-label"><i class="icon-image" aria-hidden="true"></i> Image preview</h3>
+            <div class="result-image-wrap" id="resultImageWrap">
+                <img id="resultImage" alt="Analyzed sky image with detected stars">
+                <canvas id="resultOverlay"></canvas>
+                <button class="zoom-btn" id="resultZoomBtn" type="button" aria-label="Zoom image">
+                    <i class="icon-expand" aria-hidden="true"></i>
+                </button>
+            </div>
+        </article>
+
+        <article class="card card-constellation">
+            <h3 class="card-label"><i class="icon-orbit" aria-hidden="true"></i> Constellation</h3>
+            <p class="constellation-name" id="sectorTitle">—</p>
+            <p class="constellation-sub" id="sectorSub">Awaiting scan</p>
+            <span class="status-pill" id="detectionStatus">—</span>
+        </article>
+
+        <article class="card card-stats">
+            <h3 class="card-label"><i class="icon-bar-chart-3" aria-hidden="true"></i> Statistics</h3>
+            <div class="stat-row">
+                <span class="stat-value" id="starCountStat">0</span>
+                <span class="stat-label">Stars detected</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-value" id="starIdStat">0</span>
+                <span class="stat-label">Stars identified</span>
+            </div>
+        </article>
+
+        <article class="card card-info card-span-2">
+            <h3 class="card-label"><i class="icon-book-open" aria-hidden="true"></i> Wikipedia information</h3>
+            <p class="info-text" id="sectorDesc">No data yet — run a scan to see constellation details here.</p>
+            <a href="#" id="readMoreLink" class="btn btn-ghost btn-sm" target="_blank" rel="noopener" hidden>
+                <span>Read more</span><i class="icon-arrow-up-right" aria-hidden="true"></i>
+            </a>
+        </article>
+
+        <article class="card card-stars card-span-2" id="starListCard" hidden>
+            <h3 class="card-label"><i class="icon-stars" aria-hidden="true"></i> Identified stars</h3>
+            <div class="star-list" id="starList"></div>
+        </article>
+    </div>
+</section>
+
+<!-- ============ EMPTY STATE (before any scan) ============ -->
+<section class="empty-state container" id="emptyState">
+    <svg viewBox="0 0 200 140" class="empty-illustration" aria-hidden="true">
+        <rect x="20" y="20" width="160" height="100" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+        <circle cx="60" cy="55" r="4" fill="#4F7CFF"/>
+        <circle cx="120" cy="40" r="3" fill="#E5E7EB"/>
+        <circle cx="150" cy="80" r="3" fill="#E5E7EB"/>
+        <circle cx="90" cy="90" r="3" fill="#E5E7EB"/>
+        <path d="M60 55 L90 90 L120 40" stroke="#4F7CFF" stroke-width="1.5" fill="none" opacity="0.5"/>
+    </svg>
+    <p>No scan yet. Upload a night sky image above to get started.</p>
+</section>
+
+<!-- ============ HISTORY ============ -->
+<section class="history-section container" id="history">
+    <div class="section-heading">
+        <h2>Scan history</h2>
+        <p>Every scan you run is saved to your local mission log.</p>
+    </div>
+
+    <div class="history-toolbar">
+        <div class="search-field">
+            <i class="icon-search" aria-hidden="true"></i>
+            <input type="search" id="historySearch" placeholder="Search by constellation or filename" aria-label="Search history">
+        </div>
+        <button class="btn btn-secondary btn-sm" id="sortBtn" aria-pressed="false">
+            <i class="icon-arrow-up-down" aria-hidden="true"></i><span>Sort: Newest</span>
+        </button>
+        <button class="btn btn-secondary btn-sm" id="filterBtn" aria-pressed="false">
+            <i class="icon-filter" aria-hidden="true"></i><span>Anomalies only</span>
+        </button>
+    </div>
+
+    <div class="timeline" id="timeline">
+        <p class="timeline-empty" id="timelineEmpty">Loading history…</p>
+    </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about-section container" id="about">
+    <div class="section-heading">
+        <h2>About StarGazer</h2>
+        <p>StarGazer detects stars in an uploaded photo, plate-solves the field against an astronomical database, and returns the matching constellation with reference information — right in your browser.</p>
+    </div>
+</section>
+
+</main>
+
+<!-- ============ ZOOM MODAL ============ -->
+<div class="modal" id="zoomModal" hidden>
+    <div class="modal-backdrop" id="zoomBackdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="modal-close" id="zoomClose" aria-label="Close">
+            <i class="icon-x" aria-hidden="true"></i>
+        </button>
+        <img id="zoomImage" alt="Zoomed sky image">
+    </div>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ============ BACK TO TOP ============ -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+    <i class="icon-arrow-up" aria-hidden="true"></i>
+</button>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <div class="footer-brand">
+            <i class="icon-star" aria-hidden="true"></i>
+            <span>StarGazer</span>
+        </div>
+        <div class="footer-meta">
+            <a href="https://github.com/vimanbala-Ryuu/StarGazer-App.git" target="_blank" rel="noopener">GitHub</a>
+            <span>v2.0</span>
+            <span>Made with Flask + OpenCV</span>
+        </div>
+    </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Flask==3.0.0
+opencv-python-headless==4.8.0.76
+numpy==1.26.0
+requests==2.31.0
+astroquery==0.4.6
+astropy==5.3.4
+Pillow==10.0.0
+wikipedia==1.4.0
+python-dotenv==1.0.1
+gunicorn==21.2.0
